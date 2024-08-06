@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <!-- Mirrored from htmldemo.net/jadusona/jadusona/login-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 08 Nov 2023 08:02:25 GMT -->
+  <%- include("../../components/customer/head.ejs") -%>
+
+  <body>
+    <div class="main-wrapper">
+      <!-- Header Section Start -->
+      <%- include("../../components/customer/header.ejs") -%>
+      <!-- Header Section End -->
+
+      <!-- Page Banner Section Start -->
+      <div
+        class="page-banner-section section"
+        style="
+          background-image: url(https://www.thehowe.org/wp-content/uploads/2023/02/Book-Banner.jpg);
+        "
+      >
+        <div class="container">
+          <div class="row">
+            <div class="page-banner-content col">
+              <h1><%= book.title %></h1>
+              <ul class="page-breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li><a href="#"><%= book.title %></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Page Banner Section End -->
+
+      <!-- Page Section Start -->
+      <div class="page-section section section-padding">
+        <div class="container">
+          <div class="row row-30 mbn-50">
+            <div class="col-12">
+              <div class="row row-20 mb-10">
+                <div class="col-lg-6 col-12 mb-40">
+                  <div class="pro-large-img mb-10">
+                    <a href="/single-book/<%= book.id %>">
+                      <img src="/books/<%= book.thumbnail %>" />
+                    </a>
+                  </div>
+                </div>
+
+                <div class="col-lg-6 col-12 mb-40">
+                  <div class="single-product-content">
+                    <div class="head">
+                      <div class="head-left">
+                        <h3 class="title"><%= book.title %></h3>
+
+                        <div class="ratting">
+                          <% for (let i = 0; i < 5; i++) { %>
+                          <i
+                            class="fa fa-star<% if(!(i < averageRating)) { %>-o<% } %>"
+                          ></i>
+                          <% } %>
+                        </div>
+                      </div>
+
+                      <div class="head-right">
+                        <span class="price">$<%= book.price %></span>
+                      </div>
+                    </div>
+
+                    <div class="description">
+                      <p><%= book.description %></p>
+                    </div>
+
+                    <span class="availability"
+                      >Availability: <span> <%= book.quantity %> </span></span
+                    >
+
+                    <div class="quantity-colors">
+                      <div class="quantity">
+                        <h5>Quantity:</h5>
+                        <div class="pro-qty">
+                          <input type="text" value="1" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="actions">
+                      <button>
+                        <i class="ti-shopping-cart"></i><span>ADD TO CART</span>
+                      </button>
+
+                      <button class="box" data-tooltip="Wishlist">
+                        <i class="ti-heart"></i>
+                      </button>
+                    </div>
+
+                    <div class="tags">
+                      <h5>Categories:</h5>
+                      <a href="#" style="text-transform: capitalize">
+                        <%= book.category?.name %>
+                      </a>
+                    </div>
+
+                    <div class="share">
+                      <h5>Share:</h5>
+                      <a href="#"><i class="fa fa-facebook"></i></a>
+                      <a href="#"><i class="fa fa-twitter"></i></a>
+                      <a href="#"><i class="fa fa-instagram"></i></a>
+                      <a href="#"><i class="fa fa-google-plus"></i></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row mb-50">
+                <!-- Nav tabs -->
+                <div class="col-12">
+                  <ul class="pro-info-tab-list section nav">
+                    <li>
+                      <a class="active" href="#more-info" data-bs-toggle="tab"
+                        >More info</a
+                      >
+                    </li>
+                    <li>
+                      <a href="#data-sheet" data-bs-toggle="tab">Data sheet</a>
+                    </li>
+                    <li><a href="#reviews" data-bs-toggle="tab">Reviews</a></li>
+                  </ul>
+                </div>
+                <!-- Tab panes -->
+                <div class="tab-content col-12">
+                  <div class="pro-info-tab tab-pane active" id="more-info">
+                    <p><%= book.description %></p>
+                  </div>
+                  <div class="pro-info-tab tab-pane" id="data-sheet">
+                    <table class="table-data-sheet">
+                      <tbody>
+                        <tr>
+                          <td>ISBN</td>
+                          <td><%= book.isbn %></td>
+                        </tr>
+                        <tr>
+                          <td>Title</td>
+                          <td><%= book.title %></td>
+                        </tr>
+                        <tr>
+                          <td>Price</td>
+                          <td>$<%= book.price %></td>
+                        </tr>
+                        <tr>
+                          <td>Author</td>
+                          <td><%= book.author %></td>
+                        </tr>
+                        <tr>
+                          <td>Publication Year</td>
+                          <td><%= book.year %></td>
+                        </tr>
+                        <tr>
+                          <td>Quantity</td>
+                          <td><%= book.quantity %></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="pro-info-tab tab-pane" id="reviews">
+                    <div class="comment-wrap" style="padding-left: 0">
+                      <% if(!isReviewed) { %>
+                      <h3>Leave a Review</h3>
+                      <div class="comment-form mb-20">
+                        <form action="/review" method="post" id="form-review">
+                          <input
+                            type="hidden"
+                            name="bookId"
+                            value="<%= book.id %>"
+                          />
+
+                          <div class="row">
+                            <div class="col-12 mb-20">
+                              <style>
+                                .rate {
+                                  border: none;
+                                  float: left;
+                                }
+
+                                .rate > label {
+                                  color: #90a0a3;
+                                  float: right;
+                                }
+
+                                .rate > label:before {
+                                  margin: 5px;
+                                  font-size: 2em;
+                                  font-family: FontAwesome;
+                                  content: '\f005';
+                                  display: inline-block;
+                                }
+
+                                .rate > input {
+                                  display: none;
+                                }
+
+                                .rate > input:checked ~ label,
+                                .rate:not(:checked) > label:hover,
+                                .rate:not(:checked) > label:hover ~ label {
+                                  color: #f79426;
+                                }
+
+                                .rate > input:checked + label:hover,
+                                .rate > input:checked ~ label:hover,
+                                .rate > label:hover ~ input:checked ~ label,
+                                .rate > input:checked ~ label:hover ~ label {
+                                  color: #fece31;
+                                }
+                              </style>
+                              <div class="rate">
+                                <input
+                                  type="radio"
+                                  id="star5"
+                                  name="rating"
+                                  value="5"
+                                />
+                                <label
+                                  class="star"
+                                  for="star5"
+                                  title="Awesome"
+                                  aria-hidden="true"
+                                ></label>
+                                <input
+                                  type="radio"
+                                  id="star4"
+                                  name="rating"
+                                  value="4"
+                                />
+                                <label
+                                  class="star"
+                                  for="star4"
+                                  title="Great"
+                                  aria-hidden="true"
+                                ></label>
+                                <input
+                                  type="radio"
+                                  id="star3"
+                                  name="rating"
+                                  value="3"
+                                />
+                                <label
+                                  class="star"
+                                  for="star3"
+                                  title="Very good"
+                                  aria-hidden="true"
+                                ></label>
+                                <input
+                                  type="radio"
+                                  id="star2"
+                                  name="rating"
+                                  value="2"
+                                />
+                                <label
+                                  class="star"
+                                  for="star2"
+                                  title="Good"
+                                  aria-hidden="true"
+                                ></label>
+                                <input
+                                  type="radio"
+                                  id="star1"
+                                  name="rating"
+                                  value="1"
+                                />
+                                <label
+                                  class="star"
+                                  for="star1"
+                                  title="Bad"
+                                  aria-hidden="true"
+                                ></label>
+                              </div>
+                            </div>
+                            <div class="col-12 mb-20">
+                              <textarea
+                                name="comment"
+                                placeholder="Message"
+                              ></textarea>
+                            </div>
+                            <div class="col-12">
+                              <input type="submit" value="Submit" />
+                            </div>
+                          </div>
+                        </form>
+                        <script>
+                          document
+                            .getElementById('form-review')
+                            .addEventListener('submit', (e) => {
+                              e.preventDefault()
+                              const form = e.target
+                              const formData = new FormData(form)
+                              if (formData.get('rating') === null) {
+                                alert('Please select a rating')
+                                return
+                              }
+                              form.submit()
+                            })
+                        </script>
+                      </div>
+                      <% } %>
+                      <h3><%= reviews.length %> Reviews</h3>
+                      <ul class="comment-list">
+                        <% reviews.reverse().forEach(review => { %>
+                        <li>
+                          <div class="single-comment">
+                            <div class="image">
+                              <img src="/media/avatars/blank.png" />
+                            </div>
+                            <div class="content">
+                              <div
+                                style="
+                                  display: flex;
+                                  align-items: center;
+                                  gap: 8px;
+                                "
+                              >
+                                <h4>
+                                  <%= review.user?.firstName %> <%=
+                                  review.user?.lastName %>
+                                </h4>
+                                <span>-</span>
+                                <span><%= review.user?.email %></span>
+                              </div>
+                              <span> <%= formatDate(review.createdAt) %> </span>
+                              <div class="ratting" style="color: #94c7eb">
+                                <% for (let i = 0; i < 5; i++) { %>
+                                <i
+                                  class="fa fa-star<% if(!(i < review.rating)) { %>-o<% } %>"
+                                ></i>
+                                <% } %>
+                              </div>
+                              <p><%= review.comment %></p>
+                            </div>
+                          </div>
+                        </li>
+                        <% }) %>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Page Section End -->
+
+      <!-- Footer Top Section Start -->
+      <div
+        class="footer-top-section section bg-theme-two-light section-padding"
+      >
+        <div class="container">
+          <div class="row mbn-40">
+            <div class="footer-widget col-lg-3 col-md-6 col-12 mb-40">
+              <h4 class="title">CONTACT US</h4>
+              <p>
+                You address will be here<br />
+                Lorem Ipsum text
+              </p>
+              <p>
+                <a href="tel:01234567890">01234 567 890</a
+                ><a href="tel:01234567891">01234 567 891</a>
+              </p>
+              <p>
+                <a href="mailto:info@example.com">info@example.com</a
+                ><a href="#">www.example.com</a>
+              </p>
+            </div>
+
+            <div class="footer-widget col-lg-3 col-md-6 col-12 mb-40">
+              <h4 class="title">PRODUCTS</h4>
+              <ul>
+                <li><a href="#">New Arrivals</a></li>
+                <li><a href="#">Best Seller</a></li>
+                <li><a href="#">Trendy Items</a></li>
+                <li><a href="#">Best Deals</a></li>
+                <li><a href="#">On Sale Products</a></li>
+                <li><a href="#">Featured Products</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-widget col-lg-3 col-md-6 col-12 mb-40">
+              <h4 class="title">INFORMATION</h4>
+              <ul>
+                <li><a href="#">About us</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
+                <li><a href="#">Payment Method</a></li>
+                <li><a href="#">Product Warranty</a></li>
+                <li><a href="#">Return Process</a></li>
+                <li><a href="#">Payment Security</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-widget col-lg-3 col-md-6 col-12 mb-40">
+              <h4 class="title">NEWSLETTER</h4>
+              <p>Subscribe our newsletter and get all update of our product</p>
+
+              <form id="mc-form" class="mc-form footer-subscribe-form">
+                <input
+                  id="mc-email"
+                  autocomplete="off"
+                  placeholder="Enter your email here"
+                  name="EMAIL"
+                  type="email"
+                />
+                <button id="mc-submit">
+                  <i class="fa fa-paper-plane-o"></i>
+                </button>
+              </form>
+              <!-- mailchimp-alerts Start -->
+              <div class="mailchimp-alerts">
+                <div class="mailchimp-submitting"></div>
+                <!-- mailchimp-submitting end -->
+                <div class="mailchimp-success"></div>
+                <!-- mailchimp-success end -->
+                <div class="mailchimp-error"></div>
+                <!-- mailchimp-error end -->
+              </div>
+              <!-- mailchimp-alerts end -->
+
+              <h5>FOLLOW US</h5>
+              <p class="footer-social">
+                <a href="#">Facebook</a> - <a href="#">Twitter</a> -
+                <a href="#">Google+</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer Top Section End -->
+
+      <!-- Footer Bottom Section Start -->
+      <div class="footer-bottom-section section bg-theme-two pt-15 pb-15">
+        <div class="container">
+          <div class="row">
+            <div class="col text-center">
+              <p class="footer-copyright">
+                © 2024 Spring. Made with
+                <i class="fa fa-heart heart-icon"></i> By
+                <a target="_blank" href="https://hasthemes.com/">HasThemes</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer Bottom Section End -->
+    </div>
+
+    <!-- JS
+============================================ -->
+
+    <!-- jQuery JS -->
+    <script src="/js/vendor/jquery-3.6.0.min.js"></script>
+    <!-- Migrate JS -->
+    <script src="/js/vendor/jquery-migrate-3.3.2.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <!-- Plugins JS -->
+    <script src="/js/plugins.js"></script>
+    <!-- Main JS -->
+    <script src="/js/main.js"></script>
+  </body>
+
+  <!-- Mirrored from htmldemo.net/jadusona/jadusona/login-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 08 Nov 2023 08:02:25 GMT -->
+</html>

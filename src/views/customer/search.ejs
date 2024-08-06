@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+  <!-- Mirrored from htmldemo.net/jadusona/jadusona/login-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 08 Nov 2023 08:02:25 GMT -->
+  <%- include("../../components/customer/head.ejs") -%>
+
+  <body>
+    <div class="main-wrapper">
+      <!-- Header Section Start -->
+      <%- include("../../components/customer/header.ejs") -%>
+      <!-- Header Section End -->
+
+      <!-- Page Banner Section Start -->
+      <div
+        class="page-banner-section section"
+        style="
+          background-image: url(https://www.thehowe.org/wp-content/uploads/2023/02/Book-Banner.jpg);
+        "
+      >
+        <div class="container">
+          <div class="row">
+            <div class="page-banner-content col">
+              <h1>Search: <%= q %></h1>
+              <ul class="page-breadcrumb">
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Search</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Page Banner Section End -->
+
+      <!-- Page Section Start -->
+      <div class="page-section section section-padding">
+        <div class="container">
+          <div class="row">
+            <% books.forEach(book => { %>
+            <div class="col-xl-3 col-lg-4 col-md-6 col-12 mb-40">
+              <div class="product-item">
+                <div class="product-inner">
+                  <div class="image">
+                    <img
+                      src="books/<%= book.thumbnail %>"
+                      style="aspect-ratio: 27/32; object-fit: contain"
+                    />
+
+                    <div class="image-overlay">
+                      <div class="action-buttons">
+                        <a href="/single-book/<%= book.id %>">
+                          <button>view</button>
+                        </a>
+                        <button>add to cart</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="content">
+                    <div class="content-left">
+                      <h4 class="title">
+                        <a href="/single-book/<%= book.id %>"
+                          ><%= book.title %></a
+                        >
+                      </h4>
+
+                      <div class="ratting">
+                        <% for (let i = 0; i < 5; i++) { %>
+                        <i
+                          class="fa fa-star<% if(!(i < allAverageRating[book.id])) { %>-o<% } %>"
+                        ></i>
+                        <% } %>
+                      </div>
+
+                      <h5 class="size">
+                        Author: <span><%= book.author %></span>
+                      </h5>
+
+                      <h5 class="size">
+                        ISBN:
+                        <span><%= book.isbn %></span>
+                      </h5>
+                    </div>
+
+                    <div class="content-right">
+                      <span class="price">$<%= book.price %></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
+      <!-- Page Section End -->
+
+      <!-- Footer Top Section Start -->
+      <div
+        class="footer-top-section section bg-theme-two-light section-padding"
+      >
+        <div class="container">
+          <div class="row mbn-40">
+            <div class="footer-widget col-lg-3 col-md-6 col-12 mb-40">
+              <h4 class="title">CONTACT US</h4>
+              <p>
+                You address will be here<br />
+                Lorem Ipsum text
+              </p>
+              <p>
+                <a href="tel:01234567890">01234 567 890</a
+                ><a href="tel:01234567891">01234 567 891</a>
+              </p>
+              <p>
+                <a href="mailto:info@example.com">info@example.com</a
+                ><a href="#">www.example.com</a>
+              </p>
+            </div>
+
+            <div class="footer-widget col-lg-3 col-md-6 col-12 mb-40">
+              <h4 class="title">PRODUCTS</h4>
+              <ul>
+                <li><a href="#">New Arrivals</a></li>
+                <li><a href="#">Best Seller</a></li>
+                <li><a href="#">Trendy Items</a></li>
+                <li><a href="#">Best Deals</a></li>
+                <li><a href="#">On Sale Products</a></li>
+                <li><a href="#">Featured Products</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-widget col-lg-3 col-md-6 col-12 mb-40">
+              <h4 class="title">INFORMATION</h4>
+              <ul>
+                <li><a href="#">About us</a></li>
+                <li><a href="#">Terms & Conditions</a></li>
+                <li><a href="#">Payment Method</a></li>
+                <li><a href="#">Product Warranty</a></li>
+                <li><a href="#">Return Process</a></li>
+                <li><a href="#">Payment Security</a></li>
+              </ul>
+            </div>
+
+            <div class="footer-widget col-lg-3 col-md-6 col-12 mb-40">
+              <h4 class="title">NEWSLETTER</h4>
+              <p>Subscribe our newsletter and get all update of our product</p>
+
+              <form id="mc-form" class="mc-form footer-subscribe-form">
+                <input
+                  id="mc-email"
+                  autocomplete="off"
+                  placeholder="Enter your email here"
+                  name="EMAIL"
+                  type="email"
+                />
+                <button id="mc-submit">
+                  <i class="fa fa-paper-plane-o"></i>
+                </button>
+              </form>
+              <!-- mailchimp-alerts Start -->
+              <div class="mailchimp-alerts">
+                <div class="mailchimp-submitting"></div>
+                <!-- mailchimp-submitting end -->
+                <div class="mailchimp-success"></div>
+                <!-- mailchimp-success end -->
+                <div class="mailchimp-error"></div>
+                <!-- mailchimp-error end -->
+              </div>
+              <!-- mailchimp-alerts end -->
+
+              <h5>FOLLOW US</h5>
+              <p class="footer-social">
+                <a href="#">Facebook</a> - <a href="#">Twitter</a> -
+                <a href="#">Google+</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer Top Section End -->
+
+      <!-- Footer Bottom Section Start -->
+      <div class="footer-bottom-section section bg-theme-two pt-15 pb-15">
+        <div class="container">
+          <div class="row">
+            <div class="col text-center">
+              <p class="footer-copyright">
+                © 2024 Spring. Made with
+                <i class="fa fa-heart heart-icon"></i> By
+                <a target="_blank" href="https://hasthemes.com/">HasThemes</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Footer Bottom Section End -->
+    </div>
+
+    <!-- JS
+============================================ -->
+
+    <!-- jQuery JS -->
+    <script src="js/vendor/jquery-3.6.0.min.js"></script>
+    <!-- Migrate JS -->
+    <script src="js/vendor/jquery-migrate-3.3.2.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <!-- Plugins JS -->
+    <script src="js/plugins.js"></script>
+    <!-- Main JS -->
+    <script src="js/main.js"></script>
+  </body>
+
+  <!-- Mirrored from htmldemo.net/jadusona/jadusona/login-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 08 Nov 2023 08:02:25 GMT -->
+</html>
